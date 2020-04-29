@@ -1,0 +1,98 @@
+#!/usr/bin/env python3
+
+import sys
+import math
+import os
+from decimal import Decimal
+
+if len(sys.argv) != 2:
+    print('Invalid number of arguments')
+    sys.exit(84)
+    
+if '-h' in sys.argv:
+    print('USAGE')
+    print('    ./110borwein n\n')
+    print('DESCRIPTION')
+    print('    n   constant defining the integral to be computed')
+    sys.exit(0)
+try:
+    n = int(sys.argv[1])
+except ValueError:
+    print('Invalid argument type')
+    sys.exit(84)
+if n < 0:
+    print('Invalid argument range')
+    sys.exit(84)
+def    print_diff(b):
+    a = Decimal(math.radians(90))
+    #print("PI = {:.10f}".format(a))
+    c = Decimal(b)
+    d = abs(a-c)
+    print("diff = {:.10f}".format(d))
+
+def formel(x, turn):
+    value = x/(2*turn + 1)
+    if value == 0:
+        return (1)
+    else:
+        return (math.sin(value)/value)
+
+def   calc_y(x, n):
+    turn = 0
+    square = 1
+    while turn <= n:
+
+        square *= formel(x, turn) 
+        turn += 1
+        #return math.sin(x)/x
+    return (square)
+    
+count = 0
+piece = 0
+while count < 10000:
+    count += 1
+    x = count * 0.5 - 0.25
+    piece += calc_y(x, n) * 0.5
+print('Midpoint:')    
+print("IO = {:.10f}".format(piece))    
+
+
+print_diff(piece)
+print('\n')
+
+count = 0
+count2 = 1
+piece = 0
+while count < 10000 and count2 < 10001:
+    x1 = count * 0.5
+    x2 = count2 * 0.5
+    y1 = calc_y(x1, n)
+    y2 = calc_y(x2, n)
+    y = (y1 + y2) / 2
+    piece += y * 0.5
+    count += 1
+    count2 += 1
+print('Trapezoidal:')
+print("IO = {:.10f}".format(piece))
+print_diff(piece)
+print('\n')
+
+count = 0
+piece = 0
+while count < 10000:
+    x = count * 0.5    
+    if (count == 0):
+        piece += (calc_y(x + 0.25, n) * 2) 
+    else:
+        piece += calc_y(x, n)+ 2 * calc_y(x + 0.25, n)  
+    count += 1 
+piece = calc_y(0, n) * 0.5 + calc_y(5000, n) * 0.5 + piece
+piece /= 6
+print("Simson's")
+print("IO = {:.10f}".format(piece))
+print_diff(piece)
+
+
+
+        
+
