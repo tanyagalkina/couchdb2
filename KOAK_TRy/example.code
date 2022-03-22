@@ -1,0 +1,3 @@
+def tanya( double x) x;
+
+def main() tanya(8);
